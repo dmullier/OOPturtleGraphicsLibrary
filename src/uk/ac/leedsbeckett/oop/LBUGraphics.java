@@ -24,10 +24,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
- * OOPGraphics (Duncan Mullier, Leeds Beckett University)
+ * LBUGraphics (Duncan Mullier, Leeds Beckett University)
  * extended JPanel with simple drawing commands and a visual representation of a turtle to perform "turtle graphics" drawing operations.
  *  @author Duncan Mullier
- *  @version 5.1
+ *  @version 6.0
  *
  * <h2>Adding the Jar File Eclipse</h2>
  * <p>The jar file should be added to your build path. You must have created a project and be in the package explorer view if you don't see it (Window->Show View->Package Explorer)</p>
@@ -51,6 +51,7 @@ import javax.swing.JTextField;
  *
  * <h2>Version History</h2>
  * <p>All software has bugs, if you find one please report to author. Ensure you have the latest version.</p>
+ * <p>V6.0 renamed to LBUGraphics.</p>
  * <p>V5.1 changed about() graphics, minor tidy up.</p>
  * <p>V5.0 renamed to OOPGraphics</p>
  * <p>V4.5 setPanelSize(int, int) now revalidates the display so its effect is immediately seen.</p>
@@ -65,30 +66,30 @@ import javax.swing.JTextField;
  * <pre>
 import java.awt.FlowLayout;
 import javax.swing.JFrame;
-import uk.ac.leedsbeckett.oop.OOPGraphics;
+import uk.ac.leedsbeckett.oop.LBUGraphics;
 
-public class Main extends OOPGraphics
+public class Main extends LBUGraphics
 {
 	public static void main(String[] args)
 	{
-		new Main(); //create instance of class that extends OOPGraphics (could be separate class without main), gets out of static context
+		new Main(); //create instance of class that extends LBUGraphics (could be separate class without main), gets out of static context
 	}
 
 	public Main()
 	{
 		JFrame MainFrame = new JFrame();		//create a frame to display the turtle panel on
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Make sure the app exits when closed
+		MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Make sure the app exits when closed
 		MainFrame.setLayout(new FlowLayout());	//not strictly necessary
 		MainFrame.add(this);					//"this" is this object that extends turtle graphics so we are adding a turtle graphics panel to the frame
 		MainFrame.pack();						//set the frame to a size we can see
 		MainFrame.setVisible(true);				//now display it
-		about();								//call the OOPGraphics about method to display version information.
+		about();								//call the LBUGraphics about method to display version information.
 	}
 
 
-	public void processCommand(String command)	//this method must be provided because OOPGraphics will call it when it's JTextField is used
+	public void processCommand(String command)	//this method must be provided because LBUGraphics will call it when it's JTextField is used
 	{
-	//String parameter is the text typed into the OOPGraphics JTextfield
+	//String parameter is the text typed into the LBUGraphics JTextfield
 	//lands here if return was pressed or "ok" JButton clicked
 	
 	//TO DO
@@ -96,11 +97,11 @@ public class Main extends OOPGraphics
 }
 
 </pre>
- @since 3/2023
+ @since 12/2024
  */
 
 
-public abstract class OOPGraphics extends JPanel implements ActionListener, CommandLineInterface
+public abstract class LBUGraphics extends JPanel implements ActionListener, CommandLineInterface
 {
 
 	/**
@@ -181,7 +182,7 @@ public abstract class OOPGraphics extends JPanel implements ActionListener, Comm
 	protected int turtleSpeed = 1; //speed for turtle animation
 
 	/**
-	 * must be implemented in your class so that TurtleGraphics can call your code when something happens at the OOPGraphics GUI (i.e. user presses return in text field or clicks ok button).
+	 * must be implemented in your class so that TurtleGraphics can call your code when something happens at the LBUGraphics GUI (i.e. user presses return in text field or clicks ok button).
 	 * If you do not implement this method you will get a syntax error.
 	 * @param command is the String typed into the text field before return was pressed or ok was clicked.
 	 */
@@ -202,7 +203,7 @@ public abstract class OOPGraphics extends JPanel implements ActionListener, Comm
 			}
 			catch(NumberFormatException e)
 			{
-				throw new NumberFormatException("***OOPGraphics Exception*** cannot convert parameter "+(i+1)+" (\""+split[i]+ "\") to an integer");				
+				throw new NumberFormatException("***LBUGraphics Exception*** cannot convert parameter "+(i+1)+" (\""+split[i]+ "\") to an integer");
 			}
 		}
 		return params;
@@ -436,9 +437,9 @@ public abstract class OOPGraphics extends JPanel implements ActionListener, Comm
 				
 				PenColour = Color.GREEN;
 				g.setColor(Color.gray);
-				g.drawString("OOPGraphics Version "+VERSION,225,200);
+				g.drawString("LBUGraphics Version "+VERSION,225,200);
 				g.setColor(Color.white);
-				g.drawString("OOPGraphics Version "+VERSION,228,203);
+				g.drawString("LBUGraphics Version "+VERSION,228,203);
 				penSize=1;
 		
 				
@@ -760,7 +761,7 @@ public abstract class OOPGraphics extends JPanel implements ActionListener, Comm
 	}
 
 	/**
-	 * set the preferred size of the OOPGraphics panel
+	 * set the preferred size of the LBUGraphics panel
 	 * @param width in pixels
 	 * @param height in pixels
 	 */
@@ -1195,7 +1196,7 @@ public abstract class OOPGraphics extends JPanel implements ActionListener, Comm
 	 *
 	 */
 	
-	public OOPGraphics()
+	public LBUGraphics()
 	{
 
 		image = new BufferedImage(panelWidth, panelHeight, BufferedImage.TYPE_INT_RGB);//image = new BufferedImage(panelWidth, panelHeight, BufferedImage.TYPE_BYTE_INDEXED, colourModel);
@@ -1221,7 +1222,7 @@ public abstract class OOPGraphics extends JPanel implements ActionListener, Comm
 				add(okBut);
 				okBut.setVisible(true);
 				okBut.addActionListener(this);
-				messages = new JLabel("OOPGraphics V"+VERSION);
+				messages = new JLabel("LBUGraphics V"+VERSION);
 				messages.setBackground(Color.white);
 				messages.setForeground(Color.red);
 				
@@ -1232,7 +1233,7 @@ public abstract class OOPGraphics extends JPanel implements ActionListener, Comm
 				//small image to display on top of drawing area to represent the turtle
 				
 				try {
-					turtle0 = ImageIO.read(OOPGraphics.class.getResource("turtle90.png"));
+					turtle0 = ImageIO.read(LBUGraphics.class.getResource("turtle90.png"));
 				
 				} catch (IOException e) 
 				{
