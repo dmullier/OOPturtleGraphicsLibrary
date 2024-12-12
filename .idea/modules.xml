@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/OOPGraphics.iml" filepath="$PROJECT_DIR$/OOPGraphics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LBUGraphics.iml" filepath="$PROJECT_DIR$/LBUGraphics.iml" />
     </modules>
   </component>
 </project>

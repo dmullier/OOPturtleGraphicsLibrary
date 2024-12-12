@@ -1,6 +1,6 @@
 package uk.ac.leedsbeckett.oop;
 
-//to nuild gar file in IntelliJ click project then menu-Build-BuildArtefacts
+//to build gar file in IntelliJ click project then menu-Build-BuildArtefacts
 //to build javaDoc menu-tools-generate JavaDoc
 import java.awt.BasicStroke;
 import java.util.ArrayList;
