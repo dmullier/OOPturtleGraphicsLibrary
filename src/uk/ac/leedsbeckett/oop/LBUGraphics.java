@@ -1,6 +1,7 @@
 package uk.ac.leedsbeckett.oop;
 
-
+//to nuild gar file in IntelliJ click project then menu-Build-BuildArtefacts
+//to build javaDoc menu-tools-generate JavaDoc
 import java.awt.BasicStroke;
 import java.util.ArrayList;
 import java.awt.Color;
@@ -27,7 +28,6 @@ import javax.swing.JTextField;
  * LBUGraphics (Duncan Mullier, Leeds Beckett University)
  * extended JPanel with simple drawing commands and a visual representation of a turtle to perform "turtle graphics" drawing operations.
  *  @author Duncan Mullier
- *  @version 6.0
  *
  * <h2>Adding the Jar File Eclipse</h2>
  * <p>The jar file should be added to your build path. You must have created a project and be in the package explorer view if you don't see it (Window->Show View->Package Explorer)</p>
@@ -107,7 +107,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 	/**
 	 * public version number.
 	 */
-	public final float VERSION = 5.1f;
+	public final float VERSION = 6f;
 	private  Color background_Col = Color.BLACK;	//background colour of the panel
 	private final static int TURTLE_X_SIZE = 72, TURTLE_Y_SIZE = 69;
 	private final int TURTLESTARTX = 800, TURTLESTARTY = 400;
@@ -156,9 +156,9 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 	protected int penSize = 1; //used for raw drawing
 	
 	/**
-	 * a moving turtle will draw if this is true and not if it is false (set by penDown and PenUp methods)
+	 * a moving turtle will draw if this is true and not if it is false (set by drawOn and drawOff methods)
 	 */
-	protected boolean penDown;
+	protected boolean drawOn;
 	
 	/**
 	 * x position of the turtle on the screen
@@ -178,7 +178,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 	/**
 	 * delay for turtle animation
 	 */
-	private int sleepPeriod=1; //delay for turtle animation thread
+	private int sleepPeriod=6; //delay for turtle animation thread
 	protected int turtleSpeed = 1; //speed for turtle animation
 
 	/**
@@ -187,9 +187,10 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 	 * @param command is the String typed into the text field before return was pressed or ok was clicked.
 	 */
 	public abstract void processCommand(String command);
+
 	
 	
-	//takes a string, splits it and tried to convert it into integers
+	//takes a string, splits it and tries to convert it into integers
 	//if it can't it throws a numberformatexception
 	private int[] getParameters(String args) 
 	{
@@ -225,7 +226,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 	}
 	
 	/**
-	 * returns the graphicsContext of the Turtle display, so you can draw on it using the extended Graphics2Dl Java drawing methods
+	 * returns the graphicsContext2D of the Turtle display, so you can draw on it using the extended Graphics2Dl Java drawing methods
 	 * example
 	 * Graphics g = getGraphics2DContext();
 	 *	g.setColor(Color.red);
@@ -383,7 +384,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 		
 		Thread t = new Thread() 
 		{
-			private int savepenstroke;
+			int savepenstroke;
 
 			public void run() 
 			{
@@ -400,40 +401,40 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 				savepenstroke = (int) getStroke();
 				boolean savePenState = getPenState();
 				//move turtle to start position
-				penUp();
+				drawOff();
 				pointTurtle(270);
 				bresenham(xPos,yPos,aboutX,aboutY);
-				turnLeft();
-				penDown();
+				left();
+				drawOn();
 				setStroke(10);
 				setPenColour(Color.blue);//Colour = 12;
 				circle(50);
-				penUp();
-				turnLeft(90);
+				drawOff();
+				left(90);
 				forward(100);
-				penDown();
+				drawOn();
 				setPenColour(Color.green);//Colour = 9;
 				circle(50);
 				
-				penUp();
+				drawOff();
 				forward(65);
-				penUp();
+				///drawOff();
 				setPenColour(Color.red);//Colour = 2;
-				turnLeft(90);
+				left(90);
 				forward(50);
-				penDown();
-				turnRight(180);
+				drawOn();
+				right(180);
 				forward(100);
-				turnLeft(180);
-				penUp();
+				left(180);
+				drawOff();
 				forward(75);
-				turnRight(90);
+				right(90);
 				forward(25);
-				penDown();
+				drawOn();
 				circle(25);
-				penUp();
+				drawOff();
 				forward(100);
-				turnRight(360);
+				right(360);
 				
 				PenColour = Color.GREEN;
 				g.setColor(Color.gray);
@@ -448,7 +449,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 				
 				sleepPeriod = saveSleep;
 				//move turtle back to start position
-				penUp();
+				///drawOff();
 				pointTurtle(270);
 				bresenham(xPos,yPos,saveX,saveY);
 				setxPos(saveX);
@@ -480,7 +481,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 	
 	public boolean getPenState()
 	{
-		return penDown;
+		return drawOn;
 	}
 	
 	/**
@@ -489,23 +490,23 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 	 */
 	public void setPenState(boolean state)
 	{
-		penDown = state;
+		drawOn = state;
 	}
 	
 	/**
 	 * puts pen down so a line will be drawn when the turtle is moved
 	 */
-	public void penDown()
+	public void drawOn()
 	{
-		penDown = true;
+		drawOn = true;
 	}
 	
 	/**
 	 * puts pen up so a line will not be drawn when turtle is moved
 	 */
-		public void penUp()
+		public void drawOff()
 	{
-		penDown = false;
+		drawOn = false;
 	}
 	
 		/**
@@ -513,10 +514,10 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 		 * @param amount is a String representation of the degrees to rotate
 		 * if param cannot be converted to an integer a NumberFormatException is thrown.
 		 */
-		public void turnRight(String amount)
+		public void right(String amount)
 		{
 			int degrees = getParameters(amount)[0];
-			turnRight(degrees);
+			right(degrees);
 		}
 
 		
@@ -524,9 +525,9 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 	 * turtle is rotated 90 degrees to the right. i.e. if it is facing upwards (north) before it will facing right (east) after  	
 	 * 
 	 */
-	public void turnRight()
+	public void right()
 	{
-		turnRight(90);
+		right(90);
 	}
 	
 	/**
@@ -534,7 +535,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 	 * The turtle will wrap around if it goes beyond 360
 	 * @param amount is an integer 
 	 */
-	public void turnRight(int amount)
+	public void right(int amount)
 	{
 		amount = amount%360;
 		final int a = amount;
@@ -570,10 +571,10 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 	 * @param amount is a String representation of the degrees to rotate
 	 * if param cannot be converted to an integer a NumberFormatException is thrown.
 	 */
-	public void turnLeft(String amount)
+	public void left(String amount)
 	{
 		int degrees = getParameters(amount)[0];
-		turnLeft(degrees);
+		left(degrees);
 	}
 	
 
@@ -582,9 +583,9 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 	 * turtle is rotated 90 degrees to the left. i.e. if it is facing upwards (north) before it will facing left (west) after  	
 	 * 
 	 */
-	public void turnLeft()
+	public void left()
 	{
-		turnLeft(90);
+		left(90);
 	}
 	
 	/**
@@ -592,7 +593,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 	 * The turtle will wrap around if it goes beyond 360
 	 * @param amount is an integer
 	 */
-	public void turnLeft(int amount)
+	public void left(int amount)
 	{
 		amount = amount%360;
 		final int a = amount;
@@ -639,10 +640,10 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 		if (rot<0)
 		{
 			rot*=-1;	//make positive
-			turnLeft(rot);
+			left(rot);
 		}
 		else
-			turnRight(rot);
+			right(rot);
 	}
 	/**
 	 * turtle is moved in the direction it is pointing by given number of pixels.
@@ -654,7 +655,31 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 		int amt = getParameters(amount)[0];
 		forward(amt);
 	}
-	
+
+	public void dance(int moves)
+	{
+		boolean penState = getPenState();
+		drawOff();
+		boolean flag = false;
+		for(int i =0; i<moves; i++)
+		{
+			if(flag)
+			{
+				right(180);
+
+			}
+			else
+				left(180);
+			forward(50);
+			flag = !flag;
+
+			try {
+				Thread.sleep(sleepPeriod);
+			} catch (InterruptedException ignored) {
+			}
+		}
+		setPenState(penState);
+	}
 	
 	/**
 	 * move the turtle (in the direction it is pointing) by {distance} pixels. A line will be drawn if the pen is down, not if it is up
@@ -718,30 +743,30 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 	
 	
 	/**
-	 * draws a circle 
+	 * draws a circle of the provided radius at the turtle's current position. Turtle is animated.
 	 * @param radius radius of the circle to draw
 	 * 
 	 */
 	public void circle(int radius)
 	{
 		int saveDirection = direction;
-		boolean savePendown = penDown;
+		boolean savedrawOn = drawOn;
 		int savex = xPos;
 		int savey = yPos;
 
 		//move turtle to outer edge of circle
 		pointTurtle(0);
-		penUp();
+		drawOff();
 		forward(radius);
-		penDown = savePendown;
+		drawOn = savedrawOn;
 		xPos = savex;
 		yPos = savey;
 		drawCircle(radius, xPos, yPos);  
 		//move turtle back
 		pointTurtle(180);
-		penUp();
+		drawOff();
 		forward(radius);
-		penDown = savePendown;
+		drawOn = savedrawOn;
 		direction = saveDirection;
 	}
 
@@ -780,6 +805,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 	 */
 	public void setTurtleImage(String filename)
 	{
+
 		File file = new File(filename);
 
 		try {
@@ -787,6 +813,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 			
 		} catch (IOException e) {
 			System.out.println("Invalid turtle image, ensure it is in a valid image file.");
+			e.printStackTrace();
 		}
 	}
 	
@@ -822,7 +849,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 	 */
 	public void reset()
 	{
-		penUp();
+		drawOff();
 		bresenham(xPos, yPos, TURTLESTARTX/2, TURTLESTARTY/2);
 		setPenState(false);
 		pointTurtle(180);
@@ -855,7 +882,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 	 */
 	
 	/**
-	 * draw a circle using the polynomial method to give access to each pixel, turtle is updated in a thread
+	 * draw a circle using the polynomial method to give access to each pixel, turtle is updated in a thread so that it animates over the circle
 	 * @param radius circlue radius
 	 * @param x circle x position
 	 * @param y circle y position
@@ -970,7 +997,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 	}
 	
 	/**
-	 * plots a bresenham line point by point. It draws if the pen is down otherwise it just moves the turtle
+	 * plots a bresenham line, moving the turtle point by point. It draws if the pen is down otherwise it just moves the turtle
 	 * @param x1 x position of line beginning
 	 * @param y1 y position of line beginning
 	 * @param x2 x position of line end
@@ -999,7 +1026,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 			            {
 			            	
 			            	sleepThread(x, y);
-			            	if (penDown)
+			            	if (drawOn)
 			            		setPixel(x,y, Colour, raster);
 			                
 							error = error + 2 * dy;
@@ -1016,7 +1043,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 			            for(int y = y1; y < y2; y++) 
 			            {
 			            	sleepThread(x, y);
-			            	if (penDown) setPixel(x,y, Colour, raster);
+			            	if (drawOn) setPixel(x,y, Colour, raster);
 			                error = error + 2 * dx;
 			                if (error >= 0) {
 			                    x++;
@@ -1035,7 +1062,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 			            for(int x = x1; x > x2; x--) 
 			            {
 			            	sleepThread(x, y);
-			            	if (penDown) setPixel(x,y, Colour, raster);
+			            	if (drawOn) setPixel(x,y, Colour, raster);
 			                error = error + 2 * dy;
 			                if (error >= 0) {
 			                    y++;
@@ -1050,7 +1077,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 			            for(int y = y1; y < y2; y++) 
 			            {
 			            	sleepThread(x, y);
-			            	if (penDown) setPixel(x,y, Colour, raster);
+			            	if (drawOn) setPixel(x,y, Colour, raster);
 			                error = error - 2 * dx;
 			                if (error >= 0) 
 			                {
@@ -1070,7 +1097,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 			            for(int x = x1; x > x2; x--) 
 			            {
 			            	sleepThread(x, y);
-			            	if (penDown) setPixel(x,y, Colour, raster);
+			            	if (drawOn) setPixel(x,y, Colour, raster);
 			                error = error - 2 * dy;
 			                if (error >= 0) {
 			                    y--;
@@ -1085,7 +1112,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 			            for(int y = y1; y > y2; y--) 
 			            {
 			            	sleepThread(x, y);
-			            	if (penDown) setPixel(x,y, Colour, raster);
+			            	if (drawOn) setPixel(x,y, Colour, raster);
 			                error = error - 2 * dx;
 			                if (error >= 0) 
 			                {
@@ -1105,7 +1132,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 			            for(int y = y1; y > y2; y--) 
 			            {
 			            	sleepThread(x, y);
-			            	if (penDown) setPixel(x,y, Colour, raster);
+			            	if (drawOn) setPixel(x,y, Colour, raster);
 			                error = error + 2 * dx;
 			                if (error >= 0) {
 			                    x++;
@@ -1120,7 +1147,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 			            for(int x = x1; x < x2; x++) 
 			            {
 			            	sleepThread(x, y);
-			            	if (penDown) setPixel(x,y, Colour, raster);
+			            	if (drawOn) setPixel(x,y, Colour, raster);
 			                error = error - 2 * dy;
 			                if (error >= 0) {
 			                    y--;
@@ -1150,7 +1177,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 			x=0;
 		if (y>=panelHeight)
 			y=0;
-		if (penDown) drawLine(PenColour, x, y, x + penSize, y + penSize);
+		if (drawOn) drawLine(PenColour, x, y, x + penSize, y + penSize);
 
 	}
 	
@@ -1189,6 +1216,39 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 			repaint();
 		}
 	}
+
+	/**
+	 * Set the turtle graphic to 0 a turtle, 1 and orc, 2 an ellipse, 3 a dot, 4 nothing
+	 *  You can use setTurtleGraphic() to provide your own image file (fill the background in transparent).
+	 * @param turtle number for turtle
+	 */
+	public void setInternalTurtle(int turtle)
+	{
+		String resource = "turtle.png";
+		switch(turtle)
+		{
+			case 1:
+				resource = "orc.png";
+				break;
+			case 2:
+				resource = "ellipse.png";
+				break;
+			case 3:
+				resource = "dot.png";
+				break;
+			case 4:
+				resource = "blank.png";
+				break;
+
+		}
+		try {
+			turtle0 = ImageIO.read(LBUGraphics.class.getResource(resource));
+
+		} catch (IOException e)
+		{
+			System.out.println("Error with library, turtle iimage not found.");
+		}
+	}
 	/**
 	 * Constructor.
 	 * Create a panel with pen set to the middle and turtle pointing down the screen
@@ -1206,7 +1266,7 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 		//set default turtle state
 				xPos = panelWidth/2;
 				yPos = panelHeight/2;
-				penDown = false;
+				drawOn = false;
 				direction = 90; //right
 
 				setPreferredSize(new Dimension(panelWidth, panelHeight));
@@ -1231,21 +1291,15 @@ public abstract class LBUGraphics extends JPanel implements ActionListener, Comm
 				//main drawing area
 				
 				//small image to display on top of drawing area to represent the turtle
-				
-				try {
-					turtle0 = ImageIO.read(LBUGraphics.class.getResource("turtle90.png"));
-				
-				} catch (IOException e) 
-				{
-						System.out.println("Error with library, turtle iimage not found.");
-				}	
-				
+
+				setInternalTurtle(0);
 				// Set max size of the panel, so that is matches the max size of the image.
 				setMaximumSize(new Dimension(image.getWidth(), image.getHeight()));
 				setSize(panelWidth, panelHeight);
 				setVisible(true);
 				revalidate();
 				clear();
+				setTurtleSpeed(3);
 				repaint();
 			
 	}
