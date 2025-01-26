@@ -32,13 +32,13 @@ import javax.swing.JTextField;
  * <h2>Adding the Jar File Eclipse</h2>
  * <p>The jar file should be added to your build path. You must have created a project and be in the package explorer view if you don't see it (Window->Show View->Package Explorer)</p>
  * <p>Right-click on your project, select "Build Path-Add External Archive" and add jar file.</p>
- * <p>It will appear in your project explorer under "referenced libraries", inside the jar will be OOPGraphics.class.</p>
+ * <p>It will appear in your project explorer under "referenced libraries", inside the jar will be LBUGraphics.class.</p>
  * <p>Don't forget to look at the inherited methods from JPanel and above, which will also be if use.</p>
  *
  * <h2>Updating the Jar File Eclipse</h2>
- * <p>If you need to update the jar file then remove the old one by expending Referenced Libraries in your project so that OOPGraphics.jar appears.</p>
- * <p>Right click on OOPGraphics.jar and select Build path->Remove From Build Path.</p>
- * <p>You will get syntax errors in your project where it references OOPGraphics, but you can now add the new version of OOPGraphics.jar using the steps above.</p>
+ * <p>If you need to update the jar file then remove the old one by expending Referenced Libraries in your project so that LBUGraphics.jar appears.</p>
+ * <p>Right click on LBUGraphics.jar and select Build path->Remove From Build Path.</p>
+ * <p>You will get syntax errors in your project where it references LBUGraphics, but you can now add the new version of LBUGraphics.jar using the steps above.</p>
  *
  * <h2>Adding the Jar File IntelliJ</h2>
  * <a href="https://www.geeksforgeeks.org/how-to-add-external-jar-file-to-an-intellij-idea-project/">...</a>
@@ -46,7 +46,7 @@ import javax.swing.JTextField;
  * <p>Go to the File > Project Structure</p>
  * <p>Select Modules at the left panel and select the Dependencies tab.</p>
  * <p>Select the + icon and select 1 JARs or Directories option.</p>
- * <p>select OOPGraphics.jar.</p>
+ * <p>select LBUGraphics.jar.</p>
  * <p>Click on the OK button</p>
  *
  * <h2>Version History</h2>
