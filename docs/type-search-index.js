@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"uk.ac.leedsbeckett.oop","l":"CommandLineInterface"},{"p":"uk.ac.leedsbeckett.oop","l":"LBU_GUI"},{"p":"uk.ac.leedsbeckett.oop","l":"LBUGraphics"},{"p":"uk.ac.leedsbeckett.oop","l":"Main"}];updateSearchResults();
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"uk.ac.leedsbeckett.oop","l":"CommandLineInterface"},{"p":"uk.ac.leedsbeckett.oop","l":"LBUGraphics"}];updateSearchResults();
